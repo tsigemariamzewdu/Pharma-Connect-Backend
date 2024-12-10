@@ -12,7 +12,9 @@ app.use(express.json())
 //DB Connect
 connectDB()
 
-
+/*Routes*/
+// user routes
+app.use('/api/v1/users', require('./routes/UserRoutes'))
 
 // Testing
 app.get('/', (req, res) => {
