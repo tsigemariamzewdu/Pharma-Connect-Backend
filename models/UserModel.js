@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
-
+const crypto = require('crypto');
+ 
 const UserSchema = new mongoose.Schema({
     
     firstname :{ 
@@ -18,12 +19,14 @@ const UserSchema = new mongoose.Schema({
         required: [true, 'Email is required'],
         unique: true,
         trim: true,
+        lowercase:true,
         match: [/^\S+@\S+\.\S+$/, 'Please enter a valid email'],
     },
     password :{ 
         type: String, 
         required: [true, 'Password is required'],
         minlength: [8, "Password must be at least 8 characters long"],
+        // select:false,
     },
     phonenumber :{ 
         type: String, 
@@ -39,6 +42,14 @@ const UserSchema = new mongoose.Schema({
         type: Date, 
         default :  Date.now
     },
+    passwordChangedAt : Date,
+    resetPasswordToken : String,
+    resetPasswordExpires : Date,
+    active: {
+        type:Boolean,
+        default: true,
+        select: false
+    }
 })
 
 
@@ -54,6 +65,17 @@ UserSchema.pre('save', async function (next) {
         next(err);  
     }
 });
+
+
+// password reset token generator
+
+UserSchema.methods.passwordResetTokenGenerator = function() {
+    const resetToken = crypto.randomBytes(32).toString('hex');
+    const hashed = crypto.createHash('sha256').update(resetToken).digest('hex');
+    this.resetPasswordToken = hashed;
+    this.resetPasswordExpires = Date.now() + 10 * 60 * 1000; // Token expires in 10 minutes
+    return resetToken;
+};
 
 
 const User = mongoose.model('User', UserSchema)
