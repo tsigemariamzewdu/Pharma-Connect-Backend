@@ -2,7 +2,8 @@ const express = require('express')
 const cors = require('cors')
 require('dotenv').config()
 const connectDB = require('./config/db')
-
+const CustomError = require('./utils/customError')
+const globalErrorHandler = require('./controller/errorController')
 const app = express()
 
 // Middlewares
@@ -21,7 +22,14 @@ app.get('/', (req, res) => {
     res.send("hello world")
 })
 
+//Handle not Found
+app.all('*', (req, res, next) => {
+    const error = new CustomError(`Can't find ${req.originalUrl} on the server.`,404)
+    next(error)
+})
 
+// Global error handling middleware
+app.use(globalErrorHandler)
 
 app.listen(process.env.PORT, () => {
     console.log("Server is listesning on port:", process.env.PORT)

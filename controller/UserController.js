@@ -1,10 +1,10 @@
 const UserServices = require('../services/UserServices')
+const asyncErrorHandler = require('../utils/asyncErrorHandler')
 
 
 // Sign up Controller
 
-exports.signUpController = async ( req, res )=> {
-    try {
+exports.signUpController = asyncErrorHandler(async ( req, res )=> {
         const newUser =await UserServices.signUp(req.body)
         res.status(201).json({
             success: true,
@@ -16,20 +16,11 @@ exports.signUpController = async ( req, res )=> {
                 }
             }
         })
-    } catch (error) {
-        console.log("file: UserController.js:5 ~ exports.Usercontroller= ~ error:", error.message)
-        res.status(500).json({
-            success:false,
-            message:"Something went wrong!",
-            error:error.message
-        })
-    }
-}
+})
 
 // Sign In Controller
 
-exports.signInController = async ( req, res )=> {
-    try {
+exports.signInController = asyncErrorHandler (async ( req, res )=> {
         const token = await UserServices.signIn(req.body)
         res.set('Authorization', `Bearer ${token}`);
         res.status(200).json({
@@ -39,18 +30,11 @@ exports.signInController = async ( req, res )=> {
                 token:  token
             }
         })
-    } catch (error) {
-        console.log("file: UserController.js:5 ~ exports.Usercontroller= ~ error:", error)
-        res.status(500).json({
-            success:false,
-            message:error.message
-        })
-    }
-}
+})
 
- 
-exports.forgetPassword = async (req, res) => {
-    try {
+// forgot password controller
+
+exports.forgetPassword = asyncErrorHandler (async (req, res) => {
         const { email } = req.body;
         const result = await UserServices.forgetPassword(
             email,
@@ -61,21 +45,13 @@ exports.forgetPassword = async (req, res) => {
             status: 'success',
             message: result.message,
         });
-    } catch (error) {
-        console.error('Forget password error:', error);
-
-        res.status(500).json({
-            status: 'error',
-            message: error.message || 'Something went wrong!',
-        });
-    }
-};
+     
+});
 
 
 // reset passswprd Controller.js
  
-exports.resetPassword = async (req, res) => {
-    try {
+exports.resetPassword =asyncErrorHandler (async (req, res) => {
         const { resetToken } = req.params;
         const { password } = req.body;
         const { jwtToken } = await UserServices.resetPassword(resetToken, password);
@@ -83,54 +59,29 @@ exports.resetPassword = async (req, res) => {
             status: "success",
             token: jwtToken
         });
-    } catch (error) {
-        console.error("Error in resetPassword:", error);
-        res.status(500).json({
-            status: "error",
-            message: error.message
-        });
-    }
-};
+});
 
  
 // password update controller
 
-exports.changePasswordController = async ( req, res )=> {
-    try {
+exports.changePasswordController =asyncErrorHandler (async ( req, res )=> {
         await UserServices.updatePssword(req.body,req.user)
         res.status(200).json({
             success: true,
             message:"Password updated successfully!",
         })
-    } catch (error) {
-        console.log("file: UserController.js:5 ~ exports.Usercontroller= ~ error:", error)
-        res.status(500).json({
-            success:false,
-            message:"Something went wrong!",
-            error:error.message
-        })
-    }
-}
+})
 
  
 
 // delete controller
 
-exports.deleteAcountController = async ( req, res )=> {
-    try {
+exports.deleteAcountController =asyncErrorHandler (async ( req, res )=> {
         await UserServices.deleteAccount(req.user)
         res.status(200).json({
             success: true,
             message:"Account deleted successfully!",
         })
-    } catch (error) {
-        console.log("file: UserController.js:5 ~ exports.Usercontroller= ~ error:", error)
-        res.status(500).json({
-            success:false,
-            message:"Something went wrong!",
-            error:error.message
-        })
-    }
-}
+})
 
  

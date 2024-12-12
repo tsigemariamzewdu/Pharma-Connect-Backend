@@ -3,18 +3,19 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const sendEmail = require('../utils/emailService')
 const crypto = require('crypto')
+const CustomError = require('../utils/customError')
  
 //signup
 
 exports.signUp = async(userData) => {
     if (userData.password !== userData.confirmPassword){
-        throw new Error("Confirimation password doesn't match");
+        throw new CustomError("Confirimation password doesn't match",400);
     }
 
     const existingUser =await User.findOne({email: userData.email })
      
     if (existingUser){
-        throw new Error("Email or Username already exist.");
+        throw new CustomError("Email or Username already exist.",400);
     }
 
     const user = new User(userData); 
@@ -29,12 +30,12 @@ exports.signIn = async (userData) => {
 
     const existingUser = await User.findOne({ email }); 
     if (!existingUser) {
-        throw new Error("Email does not exist.");
+        throw new CustomError("Email does not exist.",400);
     }
 
     const isMatch = await bcrypt.compare(password, existingUser.password);
     if (!isMatch) {
-        throw new Error("Incorrect password.");
+        throw new CustomError("Incorrect password.",401);
     }
 
     const token = jwt.sign(
@@ -58,7 +59,7 @@ exports.updatePssword = async (passwords, userData) => {
     
     // check if newpassword  matchs confirmation password
     if (newPassword !== comfirmNewPassword) {
-        throw new Error("The new password confirmation failed. Please try again");
+        throw new CustomError("The new password confirmation failed. Please try again",400);
     }
 
     // check if the older password match
@@ -66,7 +67,7 @@ exports.updatePssword = async (passwords, userData) => {
 
     const isMatch = await bcrypt.compare(oldPassword, existingUser.password);
     if (!isMatch) {
-        throw new Error("The current password provided is incorrect");
+        throw new CustomError("The current password provided is incorrect",401);
     }
 
      // update the password
@@ -84,7 +85,7 @@ exports.forgetPassword = async (email, protocol, host) => {
         const user = await User.findOne({ email });
 
         if (!user) {
-            throw new Error(`The email ${email} doesn't exist`);
+            throw new CustomError(`The email ${email} doesn't exist`,400);
         }
 
         // 2. Generate a random reset token
@@ -134,7 +135,7 @@ exports.resetPassword = async (resetToken, newPassword) => {
         });
 
         if (!user) {
-            throw new Error("Token doesn't exist or has expired!");
+            throw new CustomError("Token doesn't exist or has expired!",401);
         }
 
         // Reset password
@@ -167,7 +168,7 @@ exports.deleteAccount = async (userData) => {
     const user = await User.findById(userData.userid);
     
     if (!user) {
-        throw new Error('User not found!');
+        throw new CustomError('User not found!',400);
     }
 
     await User.findByIdAndDelete(userData.userid);
