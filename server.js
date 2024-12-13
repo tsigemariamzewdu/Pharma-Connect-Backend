@@ -14,8 +14,11 @@ app.use(express.json())
 connectDB()
 
 /*Routes*/
-// user routes
+// User routes
 app.use('/api/v1/users', require('./routes/UserRoutes'))
+
+// Inventory routes
+app.use('/api/v1/inventory', require('./routes/InventoryRoutes'))
 
 // Testing
 app.get('/', (req, res) => {
@@ -31,6 +34,22 @@ app.all('*', (req, res, next) => {
 // Global error handling middleware
 app.use(globalErrorHandler)
 
-app.listen(process.env.PORT, () => {
+const server = app.listen(process.env.PORT, () => {
     console.log("Server is listesning on port:", process.env.PORT)
+})
+
+// Handle All unhandled promise rejections  
+process.on('unhandledRejection', (error) => {
+    console.log(error.name, error.message);
+    console.log("unhandled rejection occured! shutting down...")
+    server.close(() => {
+        process.exit(1);
+    });
+})
+
+// Handle All uncought exception 
+process.on('uncaughtException', (error) => {
+    console.log(error.name, error.message);
+    console.log("unhandled rejection occured! shutting down...")
+    process.exit(1);
 })
