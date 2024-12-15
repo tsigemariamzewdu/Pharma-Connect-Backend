@@ -1,10 +1,11 @@
-const User = require('../models/UserModel')
+const User = require('../models/userModel')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const sendEmail = require('../utils/emailService')
 const crypto = require('crypto')
 const CustomError = require('../utils/customError')
  
+
 //signup
 
 exports.signUp = async(userData) => {
@@ -67,7 +68,7 @@ exports.updatePssword = async (passwords, userData) => {
 
     const isMatch = await bcrypt.compare(oldPassword, existingUser.password);
     if (!isMatch) {
-        throw new CustomError("The current password provided is incorrect",401);
+        throw new CustomError("Passwords do not match.",401);
     }
 
      // update the password

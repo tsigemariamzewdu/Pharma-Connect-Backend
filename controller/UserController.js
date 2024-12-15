@@ -1,4 +1,4 @@
-const UserServices = require('../services/UserServices')
+const UserServices = require('../services/userServices')
 const asyncErrorHandler = require('../utils/asyncErrorHandler')
 
 
@@ -42,7 +42,7 @@ exports.forgetPassword = asyncErrorHandler (async (req, res) => {
             req.get('host')
         );
         res.status(200).json({
-            status: 'success',
+            status: true,
             message: result.message,
         });
      
@@ -56,7 +56,7 @@ exports.resetPassword =asyncErrorHandler (async (req, res) => {
         const { password } = req.body;
         const { jwtToken } = await UserServices.resetPassword(resetToken, password);
         res.status(200).json({
-            status: "success",
+            status: true,
             token: jwtToken
         });
 });

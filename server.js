@@ -1,3 +1,4 @@
+
 const express = require('express')
 const cors = require('cors')
 require('dotenv').config()
@@ -5,20 +6,24 @@ const connectDB = require('./config/db')
 const CustomError = require('./utils/customError')
 const globalErrorHandler = require('./controller/errorController')
 const app = express()
+ 
 
 // Middlewares
-app.use(cors())
-app.use(express.json())
+app.use(cors());
+app.use(express.json());
 
 //DB Connect
-connectDB()
+connectDB();
+
 
 /*Routes*/
-// User routes
-app.use('/api/v1/users', require('./routes/UserRoutes'))
 
-// Inventory routes
-app.use('/api/v1/inventory', require('./routes/InventoryRoutes'))
+// user routes
+app.use("/api/v1/", require("./routes/userRoutes"));
+
+//pharmacy routes
+app.use("/api/v1/", require("./routes/pharmacyRoutes"));
+
 
 // Testing
 app.get('/', (req, res) => {
@@ -53,3 +58,6 @@ process.on('uncaughtException', (error) => {
     console.log("unhandled rejection occured! shutting down...")
     process.exit(1);
 })
+
+ 
+ 

@@ -5,22 +5,22 @@ const {authMiddleware}  = require('../middlewares/authMiddleware');
 
 
 // sign up route
-router.post('/signUp',UserController.signUpController);
+router.post('/users/signUp',UserController.signUpController);
 
 // sign in route
-router.post('/signIn',UserController.signInController);
+router.post('/users/signIn',UserController.signInController);
 
 // forget password
-router.post('/forgetPassword',authMiddleware,UserController.forgetPassword);
+router.post('/users/forgetPassword',authMiddleware,UserController.forgetPassword);
 
 // reset password
-router.patch('/resetPassword/:resetToken',authMiddleware,UserController.resetPassword);
+router.patch('/users/resetPassword/:resetToken',authMiddleware,UserController.resetPassword);
 
 // update/change password
-router.patch('/updatePassword',authMiddleware,UserController.changePasswordController);
+router.patch('/users/changePassword',authMiddleware,UserController.changePasswordController);
 
 //delete me  
-router.delete('/deleteAccount',authMiddleware,UserController.deleteAcountController);
+router.delete('/users/deleteMe',authMiddleware,UserController.deleteAcountController);
 
 
 module.exports = router
