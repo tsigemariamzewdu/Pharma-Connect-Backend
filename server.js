@@ -24,6 +24,8 @@ app.use("/api/v1/", require("./routes/userRoutes"));
 //pharmacy routes
 app.use("/api/v1/", require("./routes/pharmacyRoutes"));
 
+//medicine routes
+app.use("/api/v1/", require("./routes/MedicneRoutes"));
 
 // Testing
 app.get('/', (req, res) => {
