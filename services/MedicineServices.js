@@ -18,8 +18,6 @@ exports.addMedcine=async(medicineData,pharmacistId)=>{
 });
 
 
-
-
 await medicine.save()
 console.log("Medicine saved:", medicine);
 return medicine;
