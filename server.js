@@ -24,6 +24,9 @@ app.use("/api/v1/", require("./routes/userRoutes"));
 //pharmacy routes
 app.use("/api/v1/", require("./routes/pharmacyRoutes"));
 
+//search routes
+app.use("/api/v1/", require("./routes/searchRoutes"));
+
 
 // Testing
 app.get('/', (req, res) => {
@@ -32,8 +35,7 @@ app.get('/', (req, res) => {
 
 //Handle not Found
 app.all('*', (req, res, next) => {
-    const error = new CustomError(`Can't find ${req.originalUrl} on the server.`,404)
-    next(error)
+    next(new CustomError(`Can't find ${req.originalUrl} on the server.`,404))
 })
 
 // Global error handling middleware

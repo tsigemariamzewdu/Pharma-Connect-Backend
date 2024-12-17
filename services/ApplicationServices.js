@@ -1,53 +1,39 @@
 const Application = require("../models/applicationModel");
+const CustomError = require('../utils/customError')
 
-async function createApplication(data) {
-  try {
-    const application = new Application(data);
+
+exports.createApplication = async(data) => {
+  const application = new Application(data);
     await application.save();
     return application;
-  } catch (error) {
-    throw new Error(`Error creating application: ${error.message}`);
-  }
 }
 
-async function getApplication(id) {
-  try {
-    const application = await Application.findById(id);
+
+exports.getApplication = async() => {
+  const application = await Application.findById(id);
     if (!application) {
-      throw new Error("Application not found");
+      throw new CustomError("Application not found",404);
     }
     return application;
-  } catch (error) {
-    throw new Error(`Error fetching application: ${error.message}`);
-  }
 }
 
-async function updateApplication(id, data) {
-  try {
-    const application = await Application.findByIdAndUpdate(id, data, {
-      new: true,
-    });
-    if (!application) {
-      throw new Error("Application not found");
-    }
-    return application;
-  } catch (error) {
-    throw new Error(`Error updating application: ${error.message}`);
+
+exports.updateApplication = async(id, data) => {
+  const application = await Application.findByIdAndUpdate(id, data, {
+    new: true,
+  });
+  if (!application) {
+    throw new CustomError("Application not found", 404);
   }
+  return application;
 }
 
-async function getApplications(filter) {
-  try {
-    const applications = await Application.find(filter);
-    return applications;
-  } catch (error) {
-    throw new Error(`Error fetching applications: ${error.message}`);
-  }
+
+exports.getApplications = async(filter) => {
+  const applications = await Application.find(filter);
+  return applications; 
 }
 
-module.exports = {
-  createApplication,
-  getApplication,
-  updateApplication,
-  getApplications,
-};
+ 
+
+ 

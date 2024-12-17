@@ -1,23 +1,25 @@
 const express = require("express");
 const router = express.Router();
 const pharmacyController = require("../controller/PharmacyController");
+const pharmacyValidationSchema = require('../validation/pharmacyValidation')
+const validateRequest = require('../middlewares/validateRequest')
 
 /**pharmacy routes */
 
 // add pharmacy (after admin approved)
-router.post("/pharmacy", pharmacyController.addPharmacy);
+router.post("/pharmacy",validateRequest(pharmacyValidationSchema),pharmacyController.addPharmacyController);
 
 // get pharmacy detail/profile  (everybody)
-router.get("/pharmacies/:id", pharmacyController.getPharmacy);
+router.get("/pharmacies/:id", pharmacyController.getPharmacyController);
 
 // update pharmacy profile (pharmacist)
-router.patch("/pharmacy/:id", pharmacyController.updatePharmacy);
+router.patch("/pharmacies/:id", pharmacyController.updatePharmacyController);
 
 // delete pharmacy (pharmacist & system admins)
-router.delete("/pharmacy/:id", pharmacyController.deletePharmacy);
+router.delete("/pharmacies/:id", pharmacyController.deletePharmacyController);
 
 // get all pharmacies ( )
-router.get("/pharmacy", pharmacyController.getPharmacies);
+router.get("/pharmacies", pharmacyController.getPharmaciesController);
 
 
 /**manage inventory routes */
@@ -29,10 +31,10 @@ router.get('/pharmacies/:pharmacyId/inventory', pharmacyController.getInventory)
 router.post('/pharmacies/:pharmacyId/inventory', pharmacyController.addInventoryItem);
 
 // update quantity,price & expiredate
-router.put('/pharmacies/:pharmacyId/inventory/:inventoryId', pharmacyController.updateInventoryItem);
+router.patch('/pharmacies/:pharmacyId/inventory/:medicineId', pharmacyController.updateInventoryItem);
 
 // delete medicine from inventory
-router.delete('/pharmacies/:pharmacyId/inventory/:inventoryId', pharmacyController.deleteInventoryItem);
+router.delete('/pharmacies/:pharmacyId/inventory/:medicineId', pharmacyController.deleteInventoryItem);
 
 // // Submit application
 // router.post('/pharmacies', pharmacyController.submitApplication);
