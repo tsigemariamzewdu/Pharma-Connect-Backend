@@ -44,14 +44,14 @@ exports.updateApplicationController = asyncErrorHandler(async (req, res) => {
 exports.updateApplicationStatusController = asyncErrorHandler(async (req, res) => {
   const applicationId = req.params.applicationId;
       const updateData = req.body;
-      const updatedApplication = await ApplicationService.updateApplicationStatus(
+      const response = await ApplicationService.updateApplicationStatus(
         applicationId,
         updateData
       );
   res.status(200).json({
     success: true,
-    status: updatedApplication.status,
-    updatedApplication: updatedApplication,
+    message:  `pharmacy ${response.application.status}`,
+    pharmacy: response.pharmacy,
   });
 })
 
@@ -60,7 +60,7 @@ exports.deleteApplicationController = asyncErrorHandler(async (req, res) => {
   const applicationId = req.params.applicationId;
       await ApplicationService.deleteApplication(
         applicationId,
-      );
+      ); 
   res.status(204).json({
     success: true,
     message: "Application deleted successfully.",

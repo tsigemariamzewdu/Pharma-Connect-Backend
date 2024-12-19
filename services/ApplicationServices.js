@@ -1,4 +1,5 @@
 const Application = require("../models/applicationModel");
+const Pharmacy = require("../models/pharmacyModel");
 const CustomError = require('../utils/customError')
 
 
@@ -64,8 +65,33 @@ exports.updateApplicationStatus = async(applicationId, data) => {
   if (!application) {
     throw new CustomError("Application not found", 404);
   }
-  return application;
+
+  if (data.status !== "Approved") {
+    return application
+  }
+
+  const pharmacy = new Pharmacy({
+    ownerName:application.ownerName,
+    name: application.pharmacyName,
+    contactNumber: application.contactNumber,
+    email: application.email,
+    address: application.address,
+    city: application.city,
+    state:  application.state,
+    zipCode: application.zipCode,
+    latitude: application.latitude,
+    longitude: application.longitude,
+    licenseNumber: application.licenseNumber,
+    licenseImage: application.licenseImage,
+  })
+
+  application.pharmacyId = pharmacy._id;
+  pharmacy.status = "Approved";
+  await pharmacy.save()
+
+  return {application, pharmacy};
 }
+
 
 // delete application
 exports.deleteApplication = async(applicationId, data) => {
