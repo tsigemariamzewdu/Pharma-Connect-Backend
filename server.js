@@ -27,6 +27,9 @@ app.use("/api/v1/pharmacies", require("./routes/pharmacyRoutes"));
 //medicine routes
 app.use("/api/v1/medicines", require("./routes/MedicineRoutes"));
 
+//application routes
+app.use("/api/v1/applications", require("./routes/applicationRoutes"));
+
 //search routes
 app.use("/api/v1/", require("./routes/searchRoutes"));
 

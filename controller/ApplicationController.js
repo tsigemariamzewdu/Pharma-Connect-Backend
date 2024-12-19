@@ -3,7 +3,7 @@ const asyncErrorHandler = require('../utils/asyncErrorHandler')
 
 
 // apply
-exports.ApplicationController = asyncErrorHandler(async (req, res) => {
+exports.createApplicationController = asyncErrorHandler(async (req, res) => {
   const applicationData = req.body;  
       const createdApplication = await ApplicationService.createApplication(
         applicationData
@@ -15,8 +15,8 @@ exports.ApplicationController = asyncErrorHandler(async (req, res) => {
 })
 
 // get applicatino by id
-exports.getApplication = asyncErrorHandler(async (req, res) => {
-  const applicationId = req.params.id;  
+exports.getApplicationController = asyncErrorHandler(async (req, res) => {
+  const applicationId = req.params.applicationId;  
       const application = await ApplicationService.getApplication(
         applicationId
       );
@@ -27,8 +27,8 @@ exports.getApplication = asyncErrorHandler(async (req, res) => {
 })
 
 //update application
-exports.updateApplication = asyncErrorHandler(async (req, res) => {
-  const applicationId = req.params.id;
+exports.updateApplicationController = asyncErrorHandler(async (req, res) => {
+  const applicationId = req.params.applicationId;
       const updateData = req.body;
       const updatedApplication = await ApplicationService.updateApplication(
         applicationId,
@@ -40,8 +40,36 @@ exports.updateApplication = asyncErrorHandler(async (req, res) => {
   });
 })
 
+//update application status (approve/reject)
+exports.updateApplicationStatusController = asyncErrorHandler(async (req, res) => {
+  const applicationId = req.params.applicationId;
+      const updateData = req.body;
+      const updatedApplication = await ApplicationService.updateApplicationStatus(
+        applicationId,
+        updateData
+      );
+  res.status(200).json({
+    success: true,
+    status: updatedApplication.status,
+    updatedApplication: updatedApplication,
+  });
+})
+
+//delete application
+exports.deleteApplicationController = asyncErrorHandler(async (req, res) => {
+  const applicationId = req.params.applicationId;
+      await ApplicationService.deleteApplication(
+        applicationId,
+      );
+  res.status(204).json({
+    success: true,
+    message: "Application deleted successfully.",
+    deletedApplication: {},
+  });
+})
+
 // get applications
-exports.getApplications = asyncErrorHandler(async (req, res) => {
+exports.getApplicationsController = asyncErrorHandler(async (req, res) => {
   const filter = req.query;  
   const applications = await ApplicationService.getApplications(filter);
 
