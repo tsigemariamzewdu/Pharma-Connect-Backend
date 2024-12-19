@@ -24,9 +24,14 @@ app.use("/api/v1/", require("./routes/userRoutes"));
 //pharmacy routes
 app.use("/api/v1/", require("./routes/pharmacyRoutes"));
 
+<<<<<<< HEAD
+//medicine routes
+app.use("/api/v1/", require("./routes/MedicneRoutes"));
+=======
 //search routes
 app.use("/api/v1/", require("./routes/searchRoutes"));
 
+>>>>>>> upstream/main
 
 // Testing
 app.get('/', (req, res) => {
