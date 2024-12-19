@@ -19,19 +19,17 @@ connectDB();
 /*Routes*/
 
 // user routes
-app.use("/api/v1/", require("./routes/userRoutes"));
+app.use("/api/v1/users", require("./routes/userRoutes"));
 
 //pharmacy routes
-app.use("/api/v1/", require("./routes/pharmacyRoutes"));
+app.use("/api/v1/pharmacies", require("./routes/pharmacyRoutes"));
 
-<<<<<<< HEAD
 //medicine routes
-app.use("/api/v1/", require("./routes/MedicneRoutes"));
-=======
+app.use("/api/v1/medicines", require("./routes/MedicineRoutes"));
+
 //search routes
 app.use("/api/v1/", require("./routes/searchRoutes"));
 
->>>>>>> upstream/main
 
 // Testing
 app.get('/', (req, res) => {

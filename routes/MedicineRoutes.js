@@ -7,26 +7,19 @@ const MedicineController=require("../controller/MedicineController")
 // medicine routes
 
 //add medicine route
-router.post('/add',MedicineController.addMedicineController);
+router.post('/',MedicineController.addMedicineController);
 
 //edit medicine route
-router.post('/edit/:medicineId',MedicineController.editMedicineDetailController);
+router.patch('/:medicineId',MedicineController.editMedicineDetailController);
 
 //delete medicine route
-router.delete("/delete/:medicineId",MedicineController.deleteMedicineController);
+router.delete("/:medicineId",MedicineController.deleteMedicineController);
 
 //list medicine route
-router.get('/list', MedicineController.listMedicinesController);
+router.get('/', MedicineController.listMedicinesController);
 
 //get medicine route
-router.get('/get/:medicineId', MedicineController.getMedicineController);
-
-
-
-
-
-
-
+router.get('/:medicineId', MedicineController.getMedicineController);
 
 
 module.exports = router

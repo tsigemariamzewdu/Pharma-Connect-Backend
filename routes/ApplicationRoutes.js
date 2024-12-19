@@ -3,7 +3,7 @@ const router = express.Router();
 const ApplicationController = require("../controller/ApplicationController");
 
 // pharmacy application (by owner)
-// router.post("/apply", ApplicationController.createApplication);
+router.post("/apply", ApplicationController.createApplication);
 
 // get application (see application detail, ) (by system admin, owner)
 router.get("/:id", ApplicationController.getApplication);

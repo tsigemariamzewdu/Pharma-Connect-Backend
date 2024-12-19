@@ -1,30 +1,26 @@
 const Medicine = require("../models/MedicineModel");
-const Medicine=require("../models/MedicineModel")
 
 
 //add medicine
 exports.addMedcine=async(medicineData,pharmacistId)=>{
     const {name,description,image,category}=medicineData;
-    if(!name || !category){
-        throw new Error ("name and category are required")
+
+    const existingMedicine = await Medicine.findOne({name: name})
+    if(existingMedicine){
+        throw new Error ("Medicine already exists")
     }
     const medicine=new Medicine({
         name,
         description,
         image,
         category,
-        
-        
-});
+    });
 
-
-await medicine.save()
-console.log("Medicine saved:", medicine);
-return medicine;
-
+    await medicine.save()
+    return medicine;
 }
-// edit medicince
 
+// edit medicince
 exports.editMedicine=async (medicineId,updatedData)=>{
     const medicine=await Medicine.findById(medicineId);
     if(!medicine){
@@ -32,7 +28,6 @@ exports.editMedicine=async (medicineId,updatedData)=>{
     }
    Object.keys(updatedData).forEach((key)=>{
     medicine[key]=updatedData[key]
-
    }
    )
    await medicine.save();
@@ -40,8 +35,8 @@ exports.editMedicine=async (medicineId,updatedData)=>{
 
 }
 
-//delete medicine
 
+//delete medicine
 exports.deleteMedicine= async(medicineId)=>{
     const deletedMedicine=await Medicine.findByIdAndDelete(medicineId);
     if(!deletedMedicine){
@@ -62,12 +57,12 @@ exports.listMedicine = async () => {
     return medicines;
 };
 
-//get medicine
 
+//get medicine
 exports .getMedicineById=async(medicineId)=>{
-    const Medicine=await Medicine.findById(medicineId)
-    if(!Medicine){
+    const medicine=await Medicine.findById(medicineId)
+    if(!medicine){
         throw new Error("Medicine not found")
     }
-    return Medicine;
+    return medicine;
 }
