@@ -86,7 +86,8 @@ exports.updateApplicationStatus = async(applicationId, data) => {
   })
 
   application.pharmacyId = pharmacy._id;
-  pharmacy.status = "Approved";
+  application.status = "Approved";
+  await application.save()
   await pharmacy.save()
 
   return {application, pharmacy};
@@ -102,7 +103,7 @@ exports.deleteApplication = async(applicationId, data) => {
     throw new CustomError("Application not found", 404);
   }
 
-  const application = await Application.findByIdAndDelete(applicationId);
+  await Application.findByIdAndDelete(applicationId);
   return ;
 }
 

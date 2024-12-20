@@ -7,7 +7,7 @@ const validateRequest = require('../middlewares/validateRequest')
 /**pharmacy routes */
 
 // add pharmacy (after admin approved)
-router.post("/",validateRequest(pharmacyValidationSchema),pharmacyController.addPharmacyController);
+// router.post("/",validateRequest(pharmacyValidationSchema),pharmacyController.addPharmacyController);
 
 // get pharmacy detail/profile  (everybody)
 router.get("/:id", pharmacyController.getPharmacyController);
@@ -24,11 +24,11 @@ router.get("/", pharmacyController.getPharmaciesController);
 
 /**manage inventory routes */
 
-// get inventory of a pharmacy/list of medicines&quantiies+price (phramacist & pharmacy profile)
-router.get('/:pharmacyId/inventory', pharmacyController.getInventory);
-
 // add medicine to inventory (pharmacist)
 router.post('/:pharmacyId/inventory', pharmacyController.addInventoryItem);
+
+// get inventory of a pharmacy/list of medicines&quantiies+price (phramacist & pharmacy profile)
+router.get('/:pharmacyId/inventory', pharmacyController.getInventory);
 
 // update quantity,price & expiredate
 router.patch('/:pharmacyId/inventory/:medicineId', pharmacyController.updateInventoryItem);
