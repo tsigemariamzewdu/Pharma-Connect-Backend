@@ -1,4 +1,4 @@
-n const mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
 const InventorySchema = new mongoose.Schema({
     pharmacy: {
