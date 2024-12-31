@@ -15,23 +15,26 @@ app.use(express.json());
 //DB Connect
 connectDB();
 
+// port
+PORT=5000
+
 
 /*Routes*/
 
 // user routes
-app.use("/api/v1/", require("./routes/userRoutes"));
+app.use("/api/v1/", require("./routes/UserRoutes"));
 
 //pharmacy routes
 app.use("/api/v1/", require("./routes/pharmacyRoutes"));
 
-<<<<<<< HEAD
+
 //medicine routes
 app.use("/api/v1/", require("./routes/MedicneRoutes"));
-=======
+
 //search routes
 app.use("/api/v1/", require("./routes/searchRoutes"));
 
->>>>>>> upstream/main
+
 
 // Testing
 app.get('/', (req, res) => {
@@ -46,8 +49,8 @@ app.all('*', (req, res, next) => {
 // Global error handling middleware
 app.use(globalErrorHandler)
 
-const server = app.listen(process.env.PORT, () => {
-    console.log("Server is listesning on port:", process.env.PORT)
+const server = app.listen(PORT, () => {
+    console.log("Server is listesning on port:", PORT)
 })
 
 // Handle All unhandled promise rejections  

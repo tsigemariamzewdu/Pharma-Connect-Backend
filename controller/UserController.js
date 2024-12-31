@@ -19,6 +19,23 @@ exports.signUpController = asyncErrorHandler(async ( req, res )=> {
 })
 
 // Sign In Controller
+// exports.signInController = asyncErrorHandler(async (req, res) => {
+//     const token = await UserServices.signIn(req.body);
+
+//     // Set the token in a cookie
+//     res.cookie("authToken", token, {
+//         httpOnly: true, // Prevent JavaScript from accessing the cookie
+//         secure: process.env.NODE_ENV === "production", // Ensure HTTPS in production
+//         sameSite: "Strict", // Prevent CSRF
+//         maxAge: 24 * 60 * 60 * 1000, // 1-day expiry
+//     });
+
+//     res.status(200).json({
+//         success: true,
+//         message: "User logged in successfully!",
+//     });
+// });
+
 
 exports.signInController = asyncErrorHandler (async ( req, res )=> {
         const token = await UserServices.signIn(req.body)
@@ -31,6 +48,9 @@ exports.signInController = asyncErrorHandler (async ( req, res )=> {
             }
         })
 })
+// note that this should be changed into cookie so that the the token can be sent automatically with out sending it on the header and then 
+// we need to use both the access token and refresh token so that the user can stay logged in for more time thatn gn there is also and option for the 
+// us to to increase the max age of the cookie which i think is easier and another thing that we need to cover is that how we can make the system be able to 
 
 // forgot password controller
 

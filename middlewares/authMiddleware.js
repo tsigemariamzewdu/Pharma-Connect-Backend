@@ -2,6 +2,29 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/userModel')
 
 
+
+const authenticate = (req, res, next) => {
+    const token = req.cookies.authToken; // Extract token from cookies
+
+    if (!token) {
+        return res.status(401).json({
+            success: false,
+            message: "Authentication required!",
+        });
+    }
+
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET); // Verify token
+        req.user = decoded; // Attach decoded user info to the request object
+        next();
+    } catch (err) {
+        return res.status(403).json({
+            success: false,
+            message: "Invalid or expired token!",
+        });
+    }
+};
+
 exports.authMiddleware = async ( req, res, next ) => {
     // 1. Check if authorization header exists
     const authHeader = req.headers.authorization;
