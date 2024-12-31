@@ -7,34 +7,34 @@ const validateRequest = require('../middlewares/validateRequest')
 /**pharmacy routes */
 
 // add pharmacy (after admin approved)
-router.post("/pharmacy",validateRequest(pharmacyValidationSchema),pharmacyController.addPharmacyController);
+// router.post("/",validateRequest(pharmacyValidationSchema),pharmacyController.addPharmacyController);
 
 // get pharmacy detail/profile  (everybody)
-router.get("/pharmacies/:id", pharmacyController.getPharmacyController);
+router.get("/:id", pharmacyController.getPharmacyController);
 
 // update pharmacy profile (pharmacist)
-router.patch("/pharmacies/:id", pharmacyController.updatePharmacyController);
+router.patch("/:id", pharmacyController.updatePharmacyController);
 
 // delete pharmacy (pharmacist & system admins)
-router.delete("/pharmacies/:id", pharmacyController.deletePharmacyController);
+router.delete("/:id", pharmacyController.deletePharmacyController);
 
 // get all pharmacies ( )
-router.get("/pharmacies", pharmacyController.getPharmaciesController);
+router.get("/", pharmacyController.getPharmaciesController);
 
 
 /**manage inventory routes */
 
-// get inventory of a pharmacy/list of medicines&quantiies+price (phramacist & pharmacy profile)
-router.get('/pharmacies/:pharmacyId/inventory', pharmacyController.getInventory);
-
 // add medicine to inventory (pharmacist)
-router.post('/pharmacies/:pharmacyId/inventory', pharmacyController.addInventoryItem);
+router.post('/:pharmacyId/inventory', pharmacyController.addInventoryItem);
+
+// get inventory of a pharmacy/list of medicines&quantiies+price (phramacist & pharmacy profile)
+router.get('/:pharmacyId/inventory', pharmacyController.getInventory);
 
 // update quantity,price & expiredate
-router.patch('/pharmacies/:pharmacyId/inventory/:medicineId', pharmacyController.updateInventoryItem);
+router.patch('/:pharmacyId/inventory/:medicineId', pharmacyController.updateInventoryItem);
 
 // delete medicine from inventory
-router.delete('/pharmacies/:pharmacyId/inventory/:medicineId', pharmacyController.deleteInventoryItem);
+router.delete('/:pharmacyId/inventory/:medicineId', pharmacyController.deleteInventoryItem);
 
 // // Submit application
 // router.post('/pharmacies', pharmacyController.submitApplication);

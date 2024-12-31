@@ -26,7 +26,7 @@ const PharmacySchema = new mongoose.Schema({
     required: true,
     trim: true,
   },
-  phoneNumber: {
+  contactNumber: {
     type: String,
     required: true,
     trim: true,
@@ -50,6 +50,24 @@ const PharmacySchema = new mongoose.Schema({
   longitude: {
     type: Number,
     required: true,
+  },
+  licenseNumber: {
+    type: String,
+    required: [true, "License is a pre-requisite for a legal pharmacy"],
+    trim: true,
+  },
+  licenseImage: {
+    type: String,
+    required: [true, "License image should be provided"],
+    trim: true,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now,
   },
 });
 

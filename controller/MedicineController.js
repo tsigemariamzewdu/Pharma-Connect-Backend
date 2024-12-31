@@ -18,8 +18,8 @@ exports.addMedicineController = asyncErrorHandler(async (req, res) => {
 
 // Edit medicine details controller
 exports.editMedicineDetailController = asyncErrorHandler(async (req, res) => {
-    const { medicineId } = req.params; // Use params for IDs
-    const updatedData = req.body; // Updated fields sent from the frontend
+    const { medicineId } = req.params;  
+    const updatedData = req.body;  
 
     const updatedMedicine = await MedicineServices.editMedicine(medicineId, updatedData);
     res.status(200).json({
@@ -45,7 +45,6 @@ exports.listMedicinesController = asyncErrorHandler(async (req, res) => {
     const listOfMedicines = await MedicineServices.listMedicine();
     res.status(200).json({
         success: true,
-        message: "All medicines listed successfully",
         data: listOfMedicines,
     });
 });
@@ -56,7 +55,6 @@ exports.getMedicineController = asyncErrorHandler(async (req, res) => {
     const medicine = await MedicineServices.getMedicineById(medicineId);
     res.status(200).json({
         success: true,
-        message: "Medicine is listed successfully",
         data: medicine,
     });
 });

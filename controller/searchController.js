@@ -1,9 +1,10 @@
 const asyncErrorHandler = require("../utils/asyncErrorHandler");
 const customError = require('../utils/customError');
+const searchServices = require('../services/searchServices');
 
 
-exports.searchMedicine = asyncErrorHandler(async(req, res) => {
-    const { medicineName, latitude, longitude } = req.query;
+exports.searchMedicineController = asyncErrorHandler(async(req, res) => {
+    const { medicineName, latitude, longitude,maxDistance, minPrice, maxPrice } = req.body;
 
     if (!medicineName) {
         throw new customError('Please provide a medicine name to search.', 400);
@@ -25,10 +26,13 @@ exports.searchMedicine = asyncErrorHandler(async(req, res) => {
         userLocation = { latitude:lat, longitude: lon}
     }
 
-    const results = await searchServices.findPharmaciesWithMedicine({
+    const results = await searchServices.searchMedicine({
         medicineName,
         latitude: userLocation?.latitude,
-        latitude: userLocation?.latitude,
+        longitude: userLocation?.longitude,
+        maxDistance, 
+        minPrice, 
+        maxPrice
     });
 
     res.status(200).json({

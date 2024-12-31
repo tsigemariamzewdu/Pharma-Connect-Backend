@@ -18,10 +18,7 @@ const MedicineSchema= new mongoose.Schema({
         type: String,
         required: [true, 'Medicine category is required'],
         trim: true,
-    },
-   
-   
-    
+    }, 
 })
 const Medicine = mongoose.model('Medicine', MedicineSchema)
 

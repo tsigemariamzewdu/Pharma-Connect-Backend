@@ -1,22 +1,11 @@
 const pharmacyService = require("../services/pharamcyServices");
 const asyncErrorHandler = require('../utils/asyncErrorHandler')
 
-
-// add pharmacy
-exports.addPharmacyController = asyncErrorHandler(async (req, res) => {
-  const pharmacyData = req.body;
-  const createdPharmacy = await pharmacyService.createPharmacy(pharmacyData);
-  res.status(200).json({
-    success: true,
-    data: {
-      createdPharmacy: createdPharmacy
-    }
-  });
-});
+ 
 
 // get pharmacy
 exports.getPharmacyController = asyncErrorHandler( async(req, res) => {
-    const pharmacyId = req.params.id;
+    const pharmacyId = req.params.pharmacyId;
     const pharmacy = await pharmacyService.getPharmacyById(pharmacyId);
     res.status(200).json({
       success: true,
@@ -102,9 +91,8 @@ exports.updateInventoryItem = asyncErrorHandler(async (req, res) => {
 // delete medicine from inventory
 exports.deleteInventoryItem = asyncErrorHandler(async (req, res) => {
   const { pharmacyId, medicineId } = req.params;
-  const { price, quantity, expirationDate } = req.body;
   
-  const inventory = await pharmacyService.updateInventoryItem(pharmacyId, medicineId, price, quantity, expirationDate);
+  const inventory = await pharmacyService.deleteInventoryItem(pharmacyId, medicineId);
   res.status(200).json({
     success: true,
     message: "Pharmacy deleted successfully.",

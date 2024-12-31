@@ -9,7 +9,12 @@ const app = express()
  
 
 // Middlewares
-app.use(cors());
+app.use(cors(
+    {
+        origin: 'http://localhost:5173', 
+        credentials:true,
+    }
+));
 app.use(express.json());
 
 //DB Connect
@@ -22,19 +27,34 @@ PORT=5000
 /*Routes*/
 
 // user routes
+<<<<<<< HEAD
 app.use("/api/v1/", require("./routes/UserRoutes"));
+=======
+app.use("/api/v1/users", require("./routes/userRoutes"));
+>>>>>>> upstream/main
 
 //pharmacy routes
-app.use("/api/v1/", require("./routes/pharmacyRoutes"));
+app.use("/api/v1/pharmacies", require("./routes/pharmacyRoutes"));
 
+<<<<<<< HEAD
 
 //medicine routes
 app.use("/api/v1/", require("./routes/MedicneRoutes"));
+=======
+//medicine routes
+app.use("/api/v1/medicines", require("./routes/MedicineRoutes"));
+
+//application routes
+app.use("/api/v1/applications", require("./routes/applicationRoutes"));
+>>>>>>> upstream/main
 
 //search routes
 app.use("/api/v1/", require("./routes/searchRoutes"));
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> upstream/main
 
 // Testing
 app.get('/', (req, res) => {
